@@ -1,17 +1,18 @@
-from ipaddress import summarize_address_range
+import copy
+import os
+import pickle
+import pprint
 from re import T
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import os
-from scipy.optimize import curve_fit
-import copy
 import seaborn as sns
-from ssNMR.formatting import format_plot
 from lmfit import Parameters
 from lmfit.models import ExponentialModel, GaussianModel, PseudoVoigtModel
-import pprint
-import pickle
+from scipy.optimize import curve_fit
+
+from ssNMR.formatting import format_plot
 
 
 def simple_parse_data(data_path):
