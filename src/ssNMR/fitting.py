@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import os
-from scipy.optimize import curve_fit 
+from scipy.optimize import curve_fit
 import copy
 import seaborn as sns
 from ssNMR.formatting import format_plot
@@ -17,7 +17,7 @@ import pickle
 def simple_parse_data(data_path):
     """
     DESCRIPTION: Parses a .txt file containing NMR spectra with frequency and intensity data and returns two arrays for each data column
-    PARAMETERS: 
+    PARAMETERS:
         data_path: path-like string
             the path to the raw .txt file
     RETURNS: [intensity, freq_Hz, freq_ppm, larmor_freq]
@@ -29,7 +29,7 @@ def simple_parse_data(data_path):
             a numpy array containing frequency data in freq_ppm
         larmor_freq: float
             the larmor frequency, calculated by dividing freq_Hz by freq_ppm
-    """    
+    """
     # data starts on line 1, may need to change this!
     start_line = 1
     data = pd.read_csv(data_path, header=start_line, delimiter= ",")
@@ -41,14 +41,14 @@ def simple_parse_data(data_path):
     # print(intensity)
     return [intensity, freq_Hz, freq_ppm, larmor_freq]
 
-def load_fit(data_file, fit_file, show_lgd=True, lgd_loc=0, lgd_fsize=22, 
+def load_fit(data_file, fit_file, show_lgd=True, lgd_loc=0, lgd_fsize=22,
         save_name=None, summary_save_dir=None, fig_save_dir=None, fit_save_dir=None, detect_fit_file=False,
         data_color='black', fit_color='red', init_fit_color='green', comp_colors=None, group_comp_colors=['blue', 'red'],
         comp_alphas=[0.5, 0.5], comp_fill_colors=['blue', 'red'], fill_curves=False, data_lw=1, plot_fit=True, ylim=None,
         element=None, nucleus=None):
     """
     DESCRIPTION: Replots a previous fit by reading a pickled data file.
-    PARAMETERS: 
+    PARAMETERS:
         data_file: path-like string
             The path to the raw .txt file containing intensity, frequency, and ppm NMR data
         fit_file: path-like string
@@ -80,7 +80,7 @@ def load_fit(data_file, fit_file, show_lgd=True, lgd_loc=0, lgd_fsize=22,
         nuclei: int
             The nuclei asssociated with the NMR spectra, e.g. 23. Only used for plotting purposes
     RETURNS: None
-    """    
+    """
     if not save_name:
         save_name = os.path.splitext(os.path.basename(data_file))[0].replace('.txt', '')
     if detect_fit_file:
@@ -278,7 +278,7 @@ def generate_summary(model_result, comp_names, comp_groups, group_names, ssb_com
     group_relative_amps = [100*x/sum(comp_amplitudes) for x in comp_group_amplitudes]
     [comp_amplitudes.append(x) for x in comp_group_amplitudes]
     [comp_relative_amps.append(x) for x in group_relative_amps]
-    comp_data = [new_comp_names, comp_group_names, comp_relative_amps, comp_amplitudes, comp_centers, comp_sigmas, comp_fractions, 
+    comp_data = [new_comp_names, comp_group_names, comp_relative_amps, comp_amplitudes, comp_centers, comp_sigmas, comp_fractions,
     comp_fwhms, comp_heights]
     for name, data in zip(list(component_df.columns), comp_data):
         # print(data)
@@ -318,7 +318,7 @@ def fit_T2(save_dir, save_name, L1_data, intensity_data, spin_rate, labels=None,
     show_plot=True, colors=['red', 'blue', 'green']):
     """
     DESCRIPTION:  Given rotor delay and intensity data for a T2 experiment, extract out the T2 time constant in ms
-    PARAMETERS:  
+    PARAMETERS:
         save_dir: string
             Directory to save plot figure
         save_name: string
@@ -415,16 +415,16 @@ def T2_decay_func(time, T2, init_intensity):
     #fit T2 and init_intensity
     return init_intensity*np.exp(-1*time/T2)
 
-def fit_T2_spectra(data_files, rotor_periods, fit_range, components_list=None, comp_constraints=None, 
+def fit_T2_spectra(data_files, rotor_periods, fit_range, components_list=None, comp_constraints=None,
         comp_names=None, normalize=False, comp_groups=[], group_names=[],
         fit_ssb=False, ssb_list=[], mas_freq=60000,
-        print_results=True, show_plot=True, plot_init_fit=True, show_lgd=True, lgd_loc=0, lgd_fsize=22, 
+        print_results=True, show_plot=True, plot_init_fit=True, show_lgd=True, lgd_loc=0, lgd_fsize=22,
         save_name=None, summary_save_dir=None, fig_save_dir=None,
         data_color='black', fit_color='red', init_fit_color='green', comp_colors=None,   group_comp_colors=['blue', 'red']):
     """
     DESCRIPTION:  Given a set of T2 relaxation data, automatically fit all spectra, and extract of T2 constants and
                   scaled intensity values for all components
-    PARAMETERS:  
+    PARAMETERS:
         data_files: list of strings
             List of files containing T2 relaxation experiments, with varying interpulse delays
         rotor periods: array of integers
@@ -448,7 +448,7 @@ def fit_T2_spectra(data_files, rotor_periods, fit_range, components_list=None, c
         fig_size=(8,8),
     )
 
-        
+
     for comp_name in comp_names:
         assigned_group = False
         for i, group in enumerate(comp_groups):
@@ -499,7 +499,7 @@ def fit_T2_spectra(data_files, rotor_periods, fit_range, components_list=None, c
     if len(comp_groups) > 0:
         rotor_period_data = len(comp_groups)*[rotor_periods]
         labels = group_names
-    else: 
+    else:
         rotor_period_data = len(components_list)*[rotor_periods]
         labels = comp_names
     T2_list, unscaled_percentages, scaled_percentages = fit_T2(
@@ -517,32 +517,32 @@ def fit_T2_spectra(data_files, rotor_periods, fit_range, components_list=None, c
 
 def fit(data_file, fit_range, components_list=None, comp_constraints=None, fit_file=None, comp_names=None, comp_groups=[], group_names=[],
         fit_ssb=False, ssb_list=[], mas_freq=60000,
-        print_results=True, show_plot=True, plot_init_fit=True, show_lgd=True, lgd_loc=0, lgd_fsize=22, 
+        print_results=True, show_plot=True, plot_init_fit=True, show_lgd=True, lgd_loc=0, lgd_fsize=22,
         save_name=None, summary_save_dir=None, fig_save_dir=None, fit_save_dir=None, element = None, nucleus = None,
-        data_color='black', fit_color='red', init_fit_color='green', comp_colors=None, group_comp_colors=['blue', 'red'], 
+        data_color='black', fit_color='red', init_fit_color='green', comp_colors=None, group_comp_colors=['blue', 'red'],
         ):
     """
     DESCRIPTION: Given NMR frequency and intensity data and a model consisting of pseudo-voigt components, fits the NMR spectra
-    PARAMETERS: 
+    PARAMETERS:
         data_file: path-like string
             The path to the raw .txt file containing intensity, frequency, and ppm NMR data
         fit_range: array of floats
             the range to fit the NRM data over, in ppm
         components_list: array of dictionaries, i.e., [component0, component1, ...], where component0 is a dictionary object
             A list of psdeuo-voigt components to fit NMR data to. Each componenent is a dictionary in the following format:
-                component0 = 
+                component0 =
                     {'amplitude': 50000,
                     'center': 6,
                     'fraction': 1,
                     'sigma': 12}
-            The dictionary keys must be identical to the keys above, and initial guesses must be provided. 
+            The dictionary keys must be identical to the keys above, and initial guesses must be provided.
             amplitude: the integrated area under the component
             center: the center of the component, in ppm
             fraction: the ratio of lorenztian to gaussian for the component. 1 is a pure lorenztian, 0 is a pure gaussian
             sigma: related to the variance, or fwhm of the component
             for more details, refer to the following link: https://lmfit.github.io/lmfit-py/builtin_models.html#pseudovoigtmodel
         comp_constraints: array of dictionaries, i.e., [constraint0, constraint1, ...], where constraint0 is a dictionary object
-            A list of constraints for each pseudo-voigt component, indexed-matched to 'components_list'. Each constraint is a 
+            A list of constraints for each pseudo-voigt component, indexed-matched to 'components_list'. Each constraint is a
             dictionary in the following format:
                 comp0_constraints = {
                     'amplitude_vary' : True,
@@ -563,17 +563,17 @@ def fit(data_file, fit_range, components_list=None, comp_constraints=None, fit_f
                     'sigma_expr' : None,
                 }
             The dictionary keys must be identical to the keys above. Not all constraints must be specified; default values
-            (specified in the example above) will be applied. An empty dictionary can be used, but a constraint must always be 
+            (specified in the example above) will be applied. An empty dictionary can be used, but a constraint must always be
             specified for a component. For each variable (amplitude, center, fraction, sigma), there are four constraints that
-            can be applied. 'vary' indicates whether or not to optimize that variable. 'min' and 'max' provide bounds for the 
+            can be applied. 'vary' indicates whether or not to optimize that variable. 'min' and 'max' provide bounds for the
             variable. 'expr' provides a way to define mathematical constraints. For example, the relative ratio of amplitudes of
             two components (comp_0 and comp_1) can be set as such:
-                    component0 = 
+                    component0 =
                     {'amplitude': 50000,
                     'center': 6,
                     'fraction': 1,
                     'sigma': 12}
-                    component1 = 
+                    component1 =
                     {'amplitude': 50000,
                     'center': 6,
                     'fraction': 1,
@@ -586,11 +586,11 @@ def fit(data_file, fit_range, components_list=None, comp_constraints=None, fit_f
                     comp1_constrains = {}
                     comp_constraints = [comp0_constraints, comp1_constraints]
         comp_names: array of strings
-            Names assigned to each of the components, index-matched with components_list. Used in labels for plots, 
+            Names assigned to each of the components, index-matched with components_list. Used in labels for plots,
             and also as variable names to be used in 'expr' constraints (see above). Must not contain mathematical symbols
             such as '-, +, sin, etc...'
         comp_groups: nested array, i.e., [group1, group2], where group1 = [comp1, comp2, comp3] and group2 = [comp4, comp5]
-            Optional. Grouping of several or all components defined in comp_names. Useful for associating several components which 
+            Optional. Grouping of several or all components defined in comp_names. Useful for associating several components which
             describe the same environment together. Amplitude calculations and plot labels and colors will use these groupings.
             Each component must be a string that is listed in comp_names.
         group_names: array of strings, where len(group_names) = len(comp_names)
@@ -598,7 +598,7 @@ def fit(data_file, fit_range, components_list=None, comp_constraints=None, fit_f
         fit_ssb: boolean
             Whether or not to enable spinning side band fitting
         ssb_list: array of integers
-            An list of spinning sideband indices to include in the fitting. [1, -1] indicates two spinning side bands, 
+            An list of spinning sideband indices to include in the fitting. [1, -1] indicates two spinning side bands,
             one on either side of the isotropic peaks, spaced by 1*mas_freq
         mas_freq: integer
             The MAS spinning speed, in Hz.
@@ -639,14 +639,14 @@ def fit(data_file, fit_range, components_list=None, comp_constraints=None, fit_f
             a numpy array containing intensity data
         model_result: lmfit.model.ModelResult class
             results of the fit, contained in a ModelResult object: https://lmfit.github.io/lmfit-py/model.html#lmfit.model.ModelResult
-    """    
+    """
     # get NMR data
     intensity, freq_Hz, freq_ppm, larmor_freq = simple_parse_data(data_file)
     if not save_name:
         save_name = os.path.splitext(os.path.basename(data_file))[0].replace('.txt', '')
     if fit_file:
         file = open(fit_file, 'rb')
-        [fit_vals_dict, comps_old, fitx_old, fity_old, fit_ssb_old, ssb_list_old, fit_range_old, 
+        [fit_vals_dict, comps_old, fitx_old, fity_old, fit_ssb_old, ssb_list_old, fit_range_old,
         comp_names, comp_groups, group_names, ssb_comp_names_old] = pickle.load(file)
         components_list = get_components_list(fit_vals_dict, comp_names)
     # checking inputs
@@ -742,9 +742,12 @@ def fit(data_file, fit_range, components_list=None, comp_constraints=None, fit_f
     if print_results:
         print_fit_vals(out, comp_names)
     # generate summary of fits
-    groupless_amplitudes, group_amplitudes = generate_summary(out, comp_names, comp_groups, group_names, 
+    groupless_amplitudes, group_amplitudes = generate_summary(out, comp_names, comp_groups, group_names,
+    ssb_comp_names, save_dir, base_file_name)
+
+    groupless_amplitudes, group_amplitudes = generate_summary(out, comp_names, comp_groups, group_names,
     ssb_comp_names, summary_save_dir, save_name)
-    
+
     # logic to deal with grouping components
     comp_group_index = []
     comp_labels = []
@@ -796,6 +799,8 @@ def fit(data_file, fit_range, components_list=None, comp_constraints=None, fit_f
     if fit_ssb:
         for i, ssb_comp_name in enumerate(ssb_comp_names):
             plt.plot(x, comps[ssb_comp_name][::-1], '--', color=ssb_colors[i])
+
+    plt.xlabel('\u03B4/ ppm')
     if element and nucleus:
         nmr_nucleus = '$^{%d}$%s' % (nucleus, element)
     else:

@@ -31,4 +31,3 @@ dev = []
 
 [project.urls]
 Homepage = "https://github.com/vince-wu/ssNMR-fitting"
-
