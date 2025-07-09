@@ -114,7 +114,7 @@ def load_fit(data_file, fit_file, show_lgd=True, lgd_loc=0, lgd_fsize=22,
     upper_bound = next(x for x, val in enumerate(freq_ppm)
                        if val < fit_range[1])
     x = freq_ppm[lower_bound:upper_bound]
-    y = intensity[lower_bound:upper_bound]
+    # y = intensity[lower_bound:upper_bound]
     # format plots
     if not isinstance(comp_colors, list) and comp_colors:
         sns.set_palette(comp_colors)
@@ -140,6 +140,11 @@ def load_fit(data_file, fit_file, show_lgd=True, lgd_loc=0, lgd_fsize=22,
     ssb_colors = []
     fill_colors = []
     alphas = []
+
+    plt, ax = format_plot(
+        fig_size=(10, 5),
+        hide_y=True,
+    )
     for index in comp_group_index:
         if index != -1:
             colors.append(group_comp_colors[index])
@@ -160,10 +165,7 @@ def load_fit(data_file, fit_file, show_lgd=True, lgd_loc=0, lgd_fsize=22,
             else:
                 ssb_colors.append(default_colors[color_index])
                 color_index += 1
-    plt, ax = format_plot(
-        fig_size=(10, 5),
-        hide_y=True,
-    )
+
     x = x[::-1]
     # plt.plot(x, y[::-1], color=data_color, label=None, linewidth=data_lw)
     if plot_fit:
