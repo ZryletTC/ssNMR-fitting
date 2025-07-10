@@ -711,7 +711,8 @@ def fit(data_file, fit_range, components_list=None, comp_constraints=None,
         init_fit_color: string
             Color to plot the initial fit with
         comp_colors: string or array of strings
-            List of colors to plot for each componenet, or a seaborn color pallete. If set to None, default colors are used
+            List of colors to plot for each componenet, or a seaborn color
+            pallete. If set to None, default colors are used
         group_comp_colors: array of strings, with length = len(comp_groups)
             Color to plot for each group of components
         show_plot: boolean
@@ -725,15 +726,20 @@ def fit(data_file, fit_range, components_list=None, comp_constraints=None,
         lgd_fsize: int
             font size of the legend
         figure_save_dir: string
-            Directory to save figure into. If set to None, a figure will not be generated
+            Directory to save figure into. If set to None, a figure will not be
+            generated
         summary_save_dir: string
-            Directory to save summary csv file to. If set to None, a summary will not be generated
+            Directory to save summary csv file to. If set to None, a summary
+            will not be generated
         save_name: string
-            The name to save the figure and summary as. If set to None, the data file prefix name will be used.
+            The name to save the figure and summary as. If set to None, the
+            data file prefix name will be used.
         element: string
-            The element associated with the NMR spectra, e.g. 'Na'. Only used for plotting purposes
+            The element associated with the NMR spectra, e.g. 'Na'. Only used
+            for plotting purposes
         nucleus: int
-            The nuclei asssociated with the NMR spectra, e.g. 23. Only used for plotting purposes
+            The nuclei asssociated with the NMR spectra, e.g. 23. Only used for
+            plotting purposes
     RETURNS: [freq_ppm_data, intensity_data, model_result]
         freq_ppm_data: numpy array
             a numpy array containing frequency data in freq_ppm
@@ -743,6 +749,7 @@ def fit(data_file, fit_range, components_list=None, comp_constraints=None,
             results of the fit, contained in a ModelResult object:
             https://lmfit.github.io/lmfit-py/model.html#lmfit.model.ModelResult
     """  # noqa
+
     # get NMR data
     intensity, freq_Hz, freq_ppm, larmor_freq = simple_parse_data(data_file)
     if not save_name:
